@@ -1,0 +1,60 @@
+def convert_roman_number(number)
+  array = number.to_s.split('')
+
+  ones_place = array[-1].to_i
+  array[-1] = case ones_place
+                when (1..8)
+                  repeat_numbers(ones_place, "I", "V")
+                when (9)
+                  "IX"
+              end
+
+  if number >= 10
+    tens_place = array[-2].to_i
+    array[-2] = case tens_place
+                  when (1..8)
+                    repeat_numbers(tens_place, "X", "L")
+                  when (9)
+                    "XC"
+                end
+  end
+
+  if number >= 100
+    hundreds_place = array[-3].to_i
+    array[-3] = case hundreds_place
+                  when (1..8)
+                    repeat_numbers(hundreds_place, "C", "D")
+                  when (9)
+                    "CM"
+                end
+  end
+
+  if number >= 1000
+    thousands_place = array[-4].to_i
+    array[-4] = case thousands_place
+                  when (1..8)
+                    "M" * thousands_place
+                end
+  end
+
+  array.join
+end
+
+def repeat_numbers(number, add, base = "")
+  case number
+    when (1..3)
+      (add * number)
+    when (4)
+      add + base
+    when (5)
+      base
+    when (6..8)
+      base + (add * (number - 5))
+  end
+end
+
+puts convert_roman_number(85)
+puts convert_roman_number(200)
+puts convert_roman_number(402)
+puts convert_roman_number(211)
+puts convert_roman_number(3200)
